@@ -13,6 +13,8 @@ import SVProgressHUD
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var imageView: UIImageView!
+    
     var loginButton = LoginButton(readPermissions: [ .publicProfile, .email ])
     
     var fb_email = ""
@@ -26,14 +28,37 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        setUpFBLoginButton()
+        self.loginButton.isHidden = true;
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        if StringTable.checkTheLoginStatus() {
+            if let yourself = UserDefaults.standard.string(forKey: "yourself"), yourself.count > 0 {
+                if let navController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "tab_bar") as? UITabBarController{
+                    self.present(navController, animated: true, completion: nil)
+                }
+                
+            }
+            else {
+                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "question_one") as? QuestionOneViewController{
+                    self.present(viewController, animated: true, completion: nil)
+                }
+            }
+        }
+        else {
+            self.loginButton.isHidden = false
+            setUpFBLoginButton()
+        }
     }
     
     func setUpFBLoginButton() {
         self.loginButton.delegate = self
         
-        self.loginButton.frame = CGRect(x: 50, y: view.frame.height / 2, width: view.frame.width - 100, height: loginButton.frame.height + 20)
+        self.loginButton.frame = CGRect(x: 50, y: (view.frame.height / 2) + 180, width: view.frame.width - 100, height: loginButton.frame.height + 20)
         view.addSubview(self.loginButton)
+        imageView.willMove(toSuperview: self.loginButton)
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,11 +106,19 @@ class LoginViewController: UIViewController {
             let status = dics?["status"] as! String
             
             if status == "completed" {
-                SVProgressHUD.dismiss()
+                StringTable.setLoginStatu()
                 
-                if let navController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "home_nav") as? UINavigationController{
-                    self.present(navController, animated: true, completion: nil)
+                let user = User.getCurrentAuth()
+                user.strFBID = self.fb_id
+                user.strFBName = self.fb_name
+                user.strPhone = self.fb_photo_url
+                User.setCurrentAuth(user)
+                
+                if let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "question_one") as? QuestionOneViewController{
+                    self.present(viewController, animated: true, completion: nil)
                 }
+                
+                SVProgressHUD.dismiss()
             }
             
         }) {

@@ -1,0 +1,6 @@
+framework module Pods_Chitlar {
+  umbrella header "Pods-Chitlar-umbrella.h"
+
+  export *
+  module * { export * }
+}

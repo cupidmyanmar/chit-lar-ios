@@ -1,9 +1,9 @@
 //
-//  ViewController.swift
-//  Hack-a-thon
+//  InfoViewController.swift
+//  Chitlar
 //
-//  Created by Sanjay Arya on 6/30/18.
-//  Copyright © 2018 Sanjay Arya. All rights reserved.
+//  Created by Oak Soe Shein on 7/1/18.
+//  Copyright © 2018 Oak Soe Shein. All rights reserved.
 //
 
 import UIKit
@@ -45,9 +45,9 @@ class QuestionOneViewController: UIViewController {
         interest = true
         
         if sender.tag == 1 {
-                UserDefaults.standard.set("interested in <b>women</b>", forKey: "interest")
+            UserDefaults.standard.set("interested in : women", forKey: "interest")
         }else{
-            UserDefaults.standard.set("interested in <b>men</b>", forKey: "interest")
+            UserDefaults.standard.set("interested in : men", forKey: "interest")
         }
     }
 
@@ -60,11 +60,11 @@ class QuestionOneViewController: UIViewController {
         looking = true
         
         if sender.tag == 3 {
-            UserDefaults.standard.set("looking in <b>friendship</b>", forKey: "looking")
+            UserDefaults.standard.set("looking in : friendship", forKey: "looking")
         }else if sender.tag == 4 {
-            UserDefaults.standard.set("looking in <b>casual dating</b>", forKey: "looking")
+            UserDefaults.standard.set("looking in : casual dating", forKey: "looking")
         }else if sender.tag == 5 {
-            UserDefaults.standard.set("looking in <b>serious relationship</b>", forKey: "looking")
+            UserDefaults.standard.set("looking in : serious relationship", forKey: "looking")
         }
     }
     
@@ -78,20 +78,21 @@ class QuestionOneViewController: UIViewController {
         budget = true
         
         if sender.tag == 6 {
-            UserDefaults.standard.set("budget in <b>tea shop($)</b>", forKey: "looking")
+            UserDefaults.standard.set("budget in : tea shop($)", forKey: "budget")
         }else if sender.tag == 7 {
-            UserDefaults.standard.set("budget in <b>cafe($$)</b>", forKey: "looking")
+            UserDefaults.standard.set("budget in : cafe($$)", forKey: "budget")
         }else if sender.tag == 8 {
-            UserDefaults.standard.set("budget in <b>resturant($$$)</b>", forKey: "looking")
+            UserDefaults.standard.set("budget in : resturant($$$)", forKey: "budget")
         }else if sender.tag == 9 {
-            UserDefaults.standard.set("budget in <b>hotel($$$$)</b>", forKey: "looking")
+            UserDefaults.standard.set("budget in : hotel($$$$)", forKey: "budget")
         }
         
         
     }
     @IBAction func nextClick(_ sender: UIButton) {
         if interest && looking && budget {
-            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier :"question_two") as! QuestionTwoViewController
+            self.present(vc, animated: false, completion: nil)
         }
     }
     

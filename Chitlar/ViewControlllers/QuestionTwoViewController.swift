@@ -1,9 +1,9 @@
 //
-//  QuestionTwoViewController.swift
-//  Hack-a-thon
+//  InfoViewController.swift
+//  Chitlar
 //
-//  Created by Sanjay Arya on 7/1/18.
-//  Copyright © 2018 Sanjay Arya. All rights reserved.
+//  Created by Oak Soe Shein on 7/1/18.
+//  Copyright © 2018 Oak Soe Shein. All rights reserved.
 //
 
 import UIKit
@@ -11,6 +11,7 @@ import UIKit
 class QuestionTwoViewController: UIViewController {
 
     @IBOutlet var txtView: UITextView!
+    @IBOutlet var txtAge: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +28,14 @@ class QuestionTwoViewController: UIViewController {
         UserDefaults.standard.set(txtView.text, forKey: "yourself")
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func nextClick(_ sender: UIButton) {
+        if let yourself = txtView.text, let age = txtAge.text, yourself.count > 0, age.count > 0 {
+            UserDefaults.standard.set(yourself, forKey: "yourself")
+            UserDefaults.standard.set(age, forKey: "age")
+            let vc = self.storyboard?.instantiateViewController(withIdentifier :"info") as! InfoViewController
+            vc.fromQuestion = true
+            self.present(vc, animated: false, completion: nil)
+        }
     }
-    */
 
 }
